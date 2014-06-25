@@ -1,0 +1,16 @@
+<form class="form-inline clearfix" role="form">
+    <div class="form-group" ng-hide="user.fbData">
+        <label for="fb-username">Facebook user</label>
+        <input ng-model="user.username" type="text" class="form-control" id="fb-username" placeholder="username">
+        <button ng-click="facebookLogin()" type="submit" class="btn btn-default">Login</button>
+    </div>
+    <div class="" ng-show="user.fbData">
+        <p ng-repeat="test in user.fbData" ng-show="false">
+            {{ test }}
+        </p>
+        <h4>Welcome, </h4>
+
+        <h2> {{ user.fbData.name }} </h2>
+        <button ng-click="logout()" type="submit" class="btn btn-default">Logout</button>
+    </div>
+</form>

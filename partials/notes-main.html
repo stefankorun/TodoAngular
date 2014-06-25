@@ -1,5 +1,9 @@
-<ul>
-    <li ng-repeat="note in notes">
+<ul class="list-group">
+    <li ng-repeat="note in notes" class="list-group-item">
         {{ note.text }}
     </li>
+    <li class="list-group-item">
+        <input ng-model="text" type="text" class="form-control">
+    </li>
+    <button ng-click="clearNotes()" type="button" class="btn btn-warning" style="margin-top: 10px; line-height: 1em;">Delete all</button>
 </ul>

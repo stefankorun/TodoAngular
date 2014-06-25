@@ -1,13 +1,13 @@
 var app = angular.module('todoApp', []);
 
-app.controller("UserController", ["$http", "$scope", function($http, $scope) {
+app.controller("UserController", ["$http", "$scope", function ($http, $scope) {
     $scope.user = {
         username: "akakorun"
     }
 
-    $scope.facebookLogin = function() {
+    $scope.facebookLogin = function () {
         $http.get("http://graph.facebook.com/" + $scope.user.username)
-            .success(function(data) {
+            .success(function (data) {
                 console.log("Get Success!", data);
                 $scope.user.fbData = data;
                 saveUserToStorage();
@@ -16,7 +16,7 @@ app.controller("UserController", ["$http", "$scope", function($http, $scope) {
                 console.log("Network error!", data);
             })
     }
-    $scope.logout = function() {
+    $scope.logout = function () {
         $scope.user = {};
         removeUserFromStorage();
     }
@@ -26,61 +26,67 @@ app.controller("UserController", ["$http", "$scope", function($http, $scope) {
      */
     function saveUserToStorage() {
         try {
-            localStorage.setItem("userData", JSON.stringify($scope.user));
+            localStorage.setItem("userData", angular.toJson($scope.user));
             console.log("Saved user to local Storage", $scope.user, localStorage);
-        } catch(ex) {
+        } catch (ex) {
             console.log(ex);
         }
 
     }
+
     function removeUserFromStorage() {
         try {
             localStorage.setItem("userData", "{}");
-        } catch(ex) {
+        } catch (ex) {
             console.log(ex);
         }
 
     }
 }]);
-app.controller("NotesController", function($scope) {
-    $scope.notes = [
-        {
-            text: "Default note",
-            author: "akakorun",
-            date: '1403695148319'
-        },
-        {
-            text: "Seccond note",
-            author: "tastatura",
-            date: "1403695207994"
-        }
-    ];
+app.controller("NotesController", function ($scope) {
+    $scope.notes = [];
+
+    $scope.addNote = function () {
+        $scope.notes.push({
+            text: $scope.text
+        });
+        $scope.text = '';
+        saveNotesToStorage();
+    }
+    $scope.clearNotes = function () {
+        $scope.notes = [];
+        removeNotesFromStorage();
+    }
+    $scope.clearInput = function () {
+        $scope.text = "";
+    }
+
 
     /*
      Private functions
      */
     function saveNotesToStorage() {
         try {
-            localStorage.setItem("notesData", JSON.stringify($scope.user));
-        } catch(ex) {
+            localStorage.setItem("notesData", angular.toJson($scope.notes));
+        } catch (ex) {
             console.log(ex);
         }
 
     }
     function removeNotesFromStorage() {
         try {
-            localStorage.setItem("notesData", "{}");
-        } catch(ex) {
+            localStorage.setItem("notesData", "[]");
+        } catch (ex) {
             console.log(ex);
         }
 
     }
 });
 
-app.directive('dirUserLogin', function() {
+app.directive('dirUserLogin', function () {
     function link(scope, element, attrs) {
         var user = localStorage.getItem("userData");
-        if(user) scope.user = JSON.parse(user);
+        if (user) scope.user = $.parseJSON(user);
     };
 
 
@@ -91,12 +97,23 @@ app.directive('dirUserLogin', function() {
         link: link
     }
 });
-app.directive('dirNotesMain', function() {
+app.directive('dirNotesMain', function () {
+    function link(scope, element, attrs) {
+        var notes = localStorage.getItem("notesData");
+        if(notes) scope.notes = $.parseJSON(notes);
 
+        element.find("input").bind("keydown", function(e) {
+            if(e.which == "13") {
+                scope.addNote();
+                scope.$apply();
+            }
+        })
+    };
 
     return {
         restrict: 'E',
         templateUrl: 'partials/notes-main.html',
+        link: link,
         controller: "NotesController"
     }
 })

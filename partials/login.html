@@ -9,7 +9,10 @@
             {{ test }}
         </p>
         <h4>Welcome, </h4>
-        <h3> {{ user.fbData.name }} <span style="font-family: monospace; font-size: 0.8em;">[{{ user.username }}]</span> </h3>
-        <button ng-click="logout()" type="submit" class="btn btn-default">Logout</button>
+        <h3>
+            {{ user.fbData.name }}
+            <span style="font-family: monospace; font-size: 0.8em;">[{{ user.username }}]</span>
+            <button ng-click="logout()" type="submit" class="btn btn-default" style="float: right; line-height: 1em;">Logout</button>
+        </h3>
     </div>
 </form>

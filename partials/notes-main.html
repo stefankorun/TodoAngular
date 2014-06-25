@@ -1,6 +1,11 @@
 <ul class="list-group">
-    <li ng-dblclick="removeMe()" ng-repeat="note in notes" class="list-group-item">
+    <li ng-mouseover="isMouseover = true" ng-mouseleave="isMouseover = false" ng-repeat="note in notes"
+        class="list-group-item clearfix" style="line-height: 2.2em;">
         {{ note.text }}
+        <div class="btn_container" style="float: right; opacity: 0.8;" ng-show="isMouseover">
+            <button class="btn btn-primary" style="padding: 2px 5px;"> edit </button>
+            <button ng-click="removeMe()" class="btn btn-danger" style="padding: 2px 5px; margin-left: 5px"> delete </button>
+        </div>
     </li>
     <li class="list-group-item">
         <input ng-model="text" type="text" class="form-control">

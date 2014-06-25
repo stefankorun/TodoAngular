@@ -30,7 +30,7 @@ app.controller("UserController", ["$http", "$scope", function ($http, $scope) {
             })
     }
     $scope.logout = function () {
-        $scope.user = {};
+        $scope.user.fbData = null;
         removeUserFromStorage();
     }
 

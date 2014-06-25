@@ -16,6 +16,19 @@ app.controller("UserController", ["$http", "$scope", function ($http, $scope) {
                 console.log("Network error!", data);
             })
     }
+    $scope.facebookJQueryLogin = function () {
+        $.get("http://graph.facebook.com/" + $scope.user.username)
+            .success(function (data) {
+                console.log("Get Success!", data);
+                $scope.apply(function() {
+                    $scope.user.fbData = data;
+                });
+                saveUserToStorage();
+            })
+            .error(function (data) {
+                console.log("Network error!", data);
+            })
+    }
     $scope.logout = function () {
         $scope.user = {};
         removeUserFromStorage();

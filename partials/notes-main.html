@@ -1,5 +1,5 @@
 <ul class="list-group">
-    <li ng-repeat="note in notes" class="list-group-item">
+    <li ng-dblclick="removeMe()" ng-repeat="note in notes" class="list-group-item">
         {{ note.text }}
     </li>
     <li class="list-group-item">

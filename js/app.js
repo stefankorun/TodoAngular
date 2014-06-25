@@ -40,7 +40,6 @@ app.controller("UserController", ["$http", "$scope", function ($http, $scope) {
         } catch (ex) {
             console.log(ex);
         }
-
     }
 }]);
 app.controller("NotesController", function ($scope) {
@@ -52,6 +51,10 @@ app.controller("NotesController", function ($scope) {
             text: $scope.text
         });
         $scope.text = '';
+        saveNotesToStorage();
+    }
+    $scope.removeMe = function() {
+        $scope.notes.splice(this.$index, 1);
         saveNotesToStorage();
     }
     $scope.clearNotes = function () {

@@ -36,7 +36,7 @@ app.controller("UserController", ["$http", "$scope", function ($http, $scope) {
 
     function removeUserFromStorage() {
         try {
-            localStorage.setItem("userData", "{}");
+            localStorage.removeItem("userData");
         } catch (ex) {
             console.log(ex);
         }
@@ -47,6 +47,7 @@ app.controller("NotesController", function ($scope) {
     $scope.notes = [];
 
     $scope.addNote = function () {
+        if($scope.text.length < 1) return;
         $scope.notes.push({
             text: $scope.text
         });
@@ -75,7 +76,7 @@ app.controller("NotesController", function ($scope) {
     }
     function removeNotesFromStorage() {
         try {
-            localStorage.setItem("notesData", "[]");
+            localStorage.removeItem("notesData");
         } catch (ex) {
             console.log(ex);
         }
@@ -86,7 +87,7 @@ app.controller("NotesController", function ($scope) {
 app.directive('dirUserLogin', function () {
     function link(scope, element, attrs) {
         var user = localStorage.getItem("userData");
-        if (user) scope.user = $.parseJSON(user);
+        if(user) scope.user = $.parseJSON(user);
     };
 
 

@@ -20,7 +20,7 @@ app.controller("UserController", ["$http", "$scope", function ($http, $scope) {
         $.get("http://graph.facebook.com/" + $scope.user.username)
             .success(function (data) {
                 console.log("Get Success!", data);
-                $scope.apply(function() {
+                $scope.$apply(function() {
                     $scope.user.fbData = data;
                 });
                 saveUserToStorage();

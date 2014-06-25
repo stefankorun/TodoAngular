@@ -7,3 +7,7 @@ body {
 .notes_container {
     margin-top: 30px;
 }
+
+form.login button {
+    vertical-align: top;
+}

@@ -11,3 +11,7 @@ body {
 form.login button {
     vertical-align: top;
 }
+
+form.login #fb-username {
+    margin-bottom: 5px;
+}

@@ -4,7 +4,7 @@
 
 
         $scope.testMongo = function () {
-            mongolabService.getGlobalNotes();
+            mongolabService.addNote("{'text':'asdasd'}");
         }
 
         $scope.user = {

@@ -1,62 +1,43 @@
 (function () {
-    app.controller("NotesController", function ($scope) {
+    app.controller("NotesController", ["$scope", "notesService", function ($scope, notesService) {
+        var prevText;
+
         $scope.state = {
             editingNote: false
         }
+        $scope.text = "";
         $scope.notes = [];
 
-        $scope.startEditing = function() {
-            $scope.prevText = $scope.text;
+
+        $scope.startEditing = function () {
+            prevText = $scope.text;
             $scope.text = this.note.text;
 
             $scope.state.editingNote = this;
         }
-        $scope.finishEditing = function() {
+        $scope.finishEditing = function () {
             var editingNote = $scope.state.editingNote;
-            editingNote.note.text = $scope.text;
-            $scope.text = editingNote.prevText;
-            $scope.state.editingNote = false;
-            $scope.$apply();
-            saveNotesToStorage();
-        }
-        $scope.addNote = function () {
-            if($scope.text.length < 1) return;
-            $scope.notes.push({
+            notesService.editNote(editingNote.$index, {
                 text: $scope.text
             });
-            $scope.text = '';
-            saveNotesToStorage();
+            $scope.text = prevText;
+            $scope.state.editingNote = false;
         }
-        $scope.removeMe = function() {
-            $scope.notes.splice(this.$index, 1);
-            saveNotesToStorage();
+        $scope.addNote = function () {
+            if ($scope.text.length < 1) return;
+            notesService.addNote({
+                text: $scope.text
+            })
+            $scope.text = '';
+        }
+        $scope.removeMe = function () {
+            notesService.removeNote(this.$index);
         }
         $scope.clearNotes = function () {
-            $scope.notes = [];
-            removeNotesFromStorage();
+            notesService.clearNotes();
         }
-        $scope.clearInput = function () {
-            $scope.text = "";
+        $scope.updateNotes = function () {
+            return $scope.notes = notesService.getNotes();
         }
-
-        /*
-         Private functions
-         */
-        function saveNotesToStorage() {
-            try {
-                localStorage.setItem("notesData", angular.toJson($scope.notes));
-            } catch (ex) {
-                console.log(ex);
-            }
-
-        }
-        function removeNotesFromStorage() {
-            try {
-                localStorage.removeItem("notesData");
-            } catch (ex) {
-                console.log(ex);
-            }
-
-        }
-    });
+    }]);
 })();

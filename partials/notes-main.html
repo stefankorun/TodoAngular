@@ -1,5 +1,5 @@
 <ul class="notes list-group">
-    <li ng-mouseover="isMouseover = true" ng-mouseleave="isMouseover = false" ng-repeat="note in notes"
+    <li ng-mouseover="isMouseover = true" ng-mouseleave="isMouseover = false" ng-repeat="note in updateNotes()"
         class="list-group-item clearfix" style="line-height: 2.2em;">
         {{ note.text }}
         <div class="btn_container" style="float: right; opacity: 0.8;" ng-show="isMouseover">

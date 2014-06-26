@@ -8,11 +8,9 @@
         $scope.text = "";
         $scope.notes = [];
 
-
         $scope.startEditing = function () {
             prevText = $scope.text;
             $scope.text = this.note.text;
-
             $scope.state.editingNote = this;
         }
         $scope.finishEditing = function () {
@@ -20,8 +18,9 @@
             notesService.editNote(editingNote.$index, {
                 text: $scope.text
             });
-            $scope.text = prevText;
             $scope.state.editingNote = false;
+            $scope.text = prevText;
+            $scope.$apply();
         }
         $scope.addNote = function () {
             if ($scope.text.length < 1) return;

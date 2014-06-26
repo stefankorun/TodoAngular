@@ -1,16 +1,14 @@
 (function () {
     app.controller("UserController", ["$http", "$scope", "userService", "mongolabService",
-        function ($http, $scope, userService, mongolabService) {
-
+    function ($http, $scope, userService, mongolabService) {
 
         $scope.testMongo = function () {
             mongolabService.addNote("{'text':'asdasd'}");
         }
 
-        $scope.user = {
-            username: "akakorun",
-            fbData: null
-        };
+        $scope.user = {};
+
+        $scope.user = userService.getUser();
 
         $scope.login = function () {
             userService.user.username = $scope.user.username;

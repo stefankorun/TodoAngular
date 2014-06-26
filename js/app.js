@@ -55,9 +55,29 @@ app.controller("UserController", ["$http", "$scope", function ($http, $scope) {
         }
     }
 }]);
+
+
+
 app.controller("NotesController", function ($scope) {
+    $scope.state = {
+        editingNote: false
+    }
     $scope.notes = [];
 
+    $scope.startEditing = function() {
+        $scope.prevText = $scope.text;
+        $scope.text = this.note.text;
+
+        $scope.state.editingNote = this;
+    }
+    $scope.finishEditing = function() {
+        var editingNote = $scope.state.editingNote;
+        editingNote.note.text = $scope.text;
+        $scope.text = editingNote.prevText;
+        $scope.state.editingNote = false;
+        $scope.$apply();
+        saveNotesToStorage();
+    }
     $scope.addNote = function () {
         if($scope.text.length < 1) return;
         $scope.notes.push({
@@ -77,7 +97,6 @@ app.controller("NotesController", function ($scope) {
     $scope.clearInput = function () {
         $scope.text = "";
     }
-
 
     /*
      Private functions
@@ -100,6 +119,11 @@ app.controller("NotesController", function ($scope) {
     }
 });
 
+
+
+
+
+
 app.directive('dirUserLogin', function () {
     function link(scope, element, attrs) {
         var user = localStorage.getItem("userData");
@@ -114,6 +138,9 @@ app.directive('dirUserLogin', function () {
         link: link
     }
 });
+
+
+
 app.directive('dirNotesMain', function () {
     function link(scope, element, attrs) {
         var notes = localStorage.getItem("notesData");
@@ -121,8 +148,12 @@ app.directive('dirNotesMain', function () {
 
         element.find("input").bind("keydown", function(e) {
             if(e.which == "13") {
-                scope.addNote();
-                scope.$apply();
+                if(scope.state.editingNote) {
+                    scope.finishEditing();
+                } else {
+                    scope.addNote();
+                    scope.$apply();
+                }
             }
         })
     };

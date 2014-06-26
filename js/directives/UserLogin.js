@@ -1,10 +1,9 @@
 (function() {
-    app.directive('userLogin', function () {
+    app.directive('userLogin', ["userService", function (userService) {
         function link(scope, element, attrs) {
-            var user = localStorage.getItem("userData");
-            if(user) scope.user = $.parseJSON(user);
+            var userData = userService.checkSession();
+            scope.user = userData;
         };
-
 
         return {
             restrict: 'E',
@@ -12,5 +11,5 @@
             controller: "UserController",
             link: link
         }
-    });
+    }]);
 })();

@@ -10,7 +10,6 @@
         }
         service.editNote = function (index, data) {
             this.notes[index] = data;
-            return this.notes;
             saveNotesToStorage();
         }
         service.removeNote = function (index) {

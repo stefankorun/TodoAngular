@@ -20,7 +20,10 @@
             });
             $scope.state.editingNote = false;
             $scope.text = prevText;
-            $scope.$apply();
+        }
+        $scope.cancelEditing = function () {
+            $scope.state.editingNote = false;
+            $scope.text = "";
         }
         $scope.addNote = function () {
             if ($scope.text.length < 1) return;
